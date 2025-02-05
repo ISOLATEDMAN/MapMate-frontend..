@@ -4,6 +4,7 @@ import Layout from './components/layouts'
 import Login from './pages/Login/login'
 import Home from './pages/home'
 import SignUp from './pages/SignUp'
+import DashBoard from './pages/homePage/dashBoard'
 
 function CustomRoutes(){
   const element = useRoutes([
@@ -14,7 +15,8 @@ function CustomRoutes(){
         { index: true, element: <Home /> }, 
         {path:'login',element:<Login />},
         {path:'signup',element:<SignUp />},
-        {path:'home',element:<Home />}
+        {path:'home',element:<Home />},
+        {path:'dashBoard',element:<DashBoard />},
       ]
     },
     {
