@@ -1,5 +1,5 @@
 import { useClerk } from "@clerk/clerk-react";
-
+import MapComponent from "../../components/mapComp/mapComp";
 function DashBoard(){
     const { signOut } = useClerk();
     const handleOut = ()=>{
@@ -15,6 +15,7 @@ function DashBoard(){
         >
             Logout
         </button>
+        <MapComponent />
     </>
 }
 
