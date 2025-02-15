@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { db } from "../../firebase";
+import { collection, getDocs } from "firebase/firestore";
+import UserProfileMap from "./userProfile";
 
 // Custom icon (avatar marker)
 const customIcon = new L.Icon({
@@ -24,11 +27,18 @@ const MapComponent = () => {
       }
     );
 
-    // Fetch all users from backend
-    fetch("http://localhost:3000/get-users")
-      .then((res) => res.json())
-      .then((data) => setUsers(data))
-      .catch((err) => console.error("Error fetching users:", err));
+    // Fetch all users from Firestore
+    const fetchUsers = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "users"));
+        const usersData = querySnapshot.docs.map(doc => doc.data());
+        setUsers(usersData);
+      } catch (err) {
+        console.error("Error fetching users:", err);
+      }
+    };
+
+    fetchUsers();
   }, []);
 
   return (
@@ -41,7 +51,10 @@ const MapComponent = () => {
       {/* Show Current User Location */}
       {userLocation && (
         <Marker position={userLocation} icon={customIcon}>
-          <Popup>🚀 You are here!</Popup>
+          <Popup>
+            🚀 You are here!
+            <UserProfileMap />
+          </Popup>
         </Marker>
       )}
 
@@ -59,5 +72,3 @@ const MapComponent = () => {
 };
 
 export default MapComponent;
-
-
